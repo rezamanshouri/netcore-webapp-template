@@ -28,7 +28,7 @@ namespace netcore_webapp_template.Controllers.Numbers
 
         [HttpGet]
         [Route("get-letters")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(NumberModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Error))]
         public IActionResult GetLetter([FromQuery][Required] int number)
         {
