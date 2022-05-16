@@ -17,11 +17,11 @@ This documents aims at providing a detailed procedure to deploy an application u
 
 ### Tags and Release Versioning
 
-In _GitHub flow_ workflow, tags are used to mark points in the source control history at which deployment has happened. Tag names follow `<project_name>.v.<major_version>.<minor_version>` format where `major_version` could simply be integers starting from 1 and incremented with every deployment, or _sprint_ number. The minor version is _0_ for the main release, _1_ for the first hotfix, _2_ for the second hotfix and so on so forth. For example:
+In _GitHub flow_ workflow, tags are used to mark points in the source control history at which deployment has happened. Tag names follow `<project_name>.v<major_version>.<minor_version>` format where `major_version` could simply be integers starting from 1 and incremented with every deployment, or _sprint_ number. The minor version is _0_ for the main release, _1_ for the first hotfix, _2_ for the second hotfix and so on so forth. For example:
 
-- `my-app.v.12.0` refers to the 12-th release.
-- `my-app.v.12.1` refers to the first hotfix for 12-th release.
-- `my-app.v.12.2` refers to the second hotfix for 12-th release.
+- `my-app.v12.0` refers to the 12-th release.
+- `my-app.v12.1` refers to the first hotfix for 12-th release.
+- `my-app.v12.2` refers to the second hotfix for 12-th release.
 
 
 ## Release Procedure
