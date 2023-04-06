@@ -5,7 +5,7 @@ This documents aims at providing a detailed procedure to deploy an application u
 1. The project will be deployed on regular cycles, and deployment is a manual process.
 1. There are three environments available:
     - Development
-        - Deployment to this is environment is automated. Every time new changes are pushed to `main` branch it is auto-deployed to this environment.
+        - Deployment to this is environment is automated. Every time new changes are pushed to `main` branch it is auto-deployed to this environment. (If there is not Development environment, and if the PRs are automatically deployed to Staging after theyre are merged, then in the below procedure, everytime we deploy to Staging, we need to disable/re-enable auto-deployment before/after the payload is deployed and validated in Staging)
     - Staging
         - This environment is where the new payload is validated before it is deployed to Production.
         - Deployment to this environment is manual.
@@ -29,32 +29,35 @@ In _GitHub flow_ workflow, tags are used to mark points in the source control hi
 1. Determine the `tag_name` following [these instructions](#tags-and-release-versioning).
 1. Determine the `commit_hash` from which the deployment is desired and create the release branch off of that:
     - Make sure you are on the `main` branch and your local branch is up to date with remote.
-    - Create release branch using `tag_name` from step 1, and push to remote:
+    - If deploying the last commit, then just eliminate `<commit_hash>` from the following command.
+    - `<tag_name>` comes from step 1.
 
     ```
         git checkout -b release.<tag_name> <commit_hash>
-        git push
     ```
-    - Create a PR for release branch.
 
+1. Update the `ChangeLog.md` file with a summary of changes and push to remote.
+1. Create a PR for the release branch.
 1. Deploy the release branch created in previous step to Staging environment.
-
-    - If there are any E2E tests, they could be kicked off as part of deploying to Staging.
-
-1. Monitor logs (and E2E test results) in Staging. Once payload in Staging is validated, we are ready for deployment.
+1. Validate the payload in Staging envrionment (E2E or manual testing), and monitor logs.
     - In case issues are detected in Staging:
         - Fix the issue on the release branch and push to remote.
         - Deploy the release branch again to Staging and validate.
-1. Create a tag _on release branch_ and push to remote (where `tag_name` is same as step 1).
-    ```
-        git tag <tag_name>
-        git push main <tag_name>
-    ```
-1. Confirm that the tag has been created on the remote.
-1. Merge release branch back to `main` (similar to a regular PR).
-1. Determine the deployment date (for example, the first upcoming Monday), and communicate with stakeholders the deployment day and time with a summary of changes. Schedule a meeting with all the developers to perform deployment at that day and time.
+
+1. Once payload is validated in Staging , we are ready for prod deployment.
+    - Create a tag _on release branch_ and push to remote (where `tag_name` is same as step 1).
+        ```
+            git tag <tag_name> // Note tag should be created before pulling.
+            git pull origin develop
+            git push
+            git push origin <tag_name>
+        ```
+    - Confirm that the tag has been created on the remote (add link here).
+    - Merge release branch back to `main`.
+1. Determine the deployment date (for example, the first upcoming Monday), and communicate with stakeholders the deployment date and time with a summary of changes. Schedule a meeting with all the developers to perform deployment at that day and time if needed.
+    - NOTE: make sure any special steps needed to happen during production deployment is tracked.
 1. On the deployment date and before kicking off the deployment, let stakeholders know that the deployment is about to happen.
-1. Deploy the `tag_name` to Production.
+1. Deploy the `tag_name` created above to Production.
 1. Monitor logs for outstanding issues right after deployment.
 
 
@@ -68,7 +71,7 @@ When an issue detected in Production, hotfixing the issue should be prioritized.
         git checkout -b hotfix.<tag_name> <latest_tag_name>
     ```
 1. Fix and validate the issue locally. Push your changes to remote and create a PR and ask for reviews.
-1. Deploy the hotfix branch to Staging, and validate the fix (run E2E tests if applicable).
+1. Deploy the hotfix branch to Staging, and validate the fix (E2E or manual testing).
 1. Once the fix is validated in Staging, we are ready to deploy to Production. Create a tag _on hotfix branch_ and push to remote (where `tag_name` is same as step 2).
     ```
         git tag <tag_name>
