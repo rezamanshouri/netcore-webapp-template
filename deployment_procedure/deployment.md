@@ -5,7 +5,7 @@ This documents aims at providing a detailed procedure to deploy an application u
 1. The project will be deployed on regular cycles, and deployment is a manual process.
 1. There are three environments available:
     - Development
-        - Deployment to this is environment is automated. Every time new changes are pushed to `main` branch it is auto-deployed to this environment. (If there is not Development environment, and if the PRs are automatically deployed to Staging after theyre are merged, then in the below procedure, everytime we deploy to Staging, we need to disable/re-enable auto-deployment before/after the payload is deployed and validated in Staging)
+        - Deployment to this is environment is automated. Every time new changes are pushed to `main` branch it is auto-deployed to this environment. (If there is no Development environment (i.e. we only have Staging and Production), and if the PRs are automatically deployed to Staging after they are merged, then in the below procedure, we need to disable/re-enable auto-deployment before/after the payload is deployed and validated in Staging)
     - Staging
         - This environment is where the new payload is validated before it is deployed to Production.
         - Deployment to this environment is manual.
